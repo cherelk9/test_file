@@ -5,7 +5,6 @@ import entities.Sex;
 import repository.PersonRepository;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PersonService implements PersonRepository{
@@ -43,8 +42,17 @@ public class PersonService implements PersonRepository{
 
     @Override
     public void addPerson(Person person) throws IOException {
-        try (var ob = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("/home/elembe/IdeaProjects/file projet test/src/person.txt")))) {
-            Person person1 = new Person("lionel", 13, "person.getMail()", Sex.FEMALE);
+        try (var ob = new ObjectOutputStream(
+                new BufferedOutputStream(
+                        new FileOutputStream("person.txt")))) {
+
+            Person person1 = new Person(
+                    person.getName(),
+                    person.getAge(),
+                    person.getMail(),
+                    person.getSex()
+            );
+
             ob.writeObject(person1);
 
         } catch (RuntimeException e) {
@@ -67,11 +75,17 @@ public class PersonService implements PersonRepository{
 
     @Override
     public List<Person> getAllPerson() throws IOException{
-        try(var ob = new ObjectInputStream(new BufferedInputStream(new FileInputStream("/home/elembe/Téléchargements/person.txt")))) {
+        try(var ob = new ObjectInputStream(
+                new BufferedInputStream(
+                        new FileInputStream("person.txt")))) {
+
             Object obj = ob.readObject();
 
             if (obj instanceof List<?>) {
-                return (List<Person>) obj;
+
+                @SuppressWarnings("unchecked")
+                List<Person> persons =  (List<Person>) obj;
+                return persons;
             }
             throw new IOException("fichier non trouvable");
 
