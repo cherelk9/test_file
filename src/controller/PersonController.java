@@ -23,13 +23,8 @@ public class PersonController {
     }
 
     public  void getAllPerson() throws IOException {
-        personService.getAllPerson().forEach(
-                person->System.out.println(
-                        person.getName()+ ""
-                        +person.getAge()+ ""
-                        +person.getMail()+""
-                        +person.getSex()
-        ));
+        personService.getAllPerson()
+                .forEach(person->System.out.println(person.toString()));
     }
 
     public void findPersonByName(String name) throws IOException{

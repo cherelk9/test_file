@@ -1,8 +1,12 @@
 package entities;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Person implements Serializable {
+    @Serial
+    private static  final long serialVersionUID = 1L;
+
 
     private final String name ;
     private final int age;
@@ -21,6 +25,14 @@ public class Person implements Serializable {
     public Sex getSex() {return sex;}
     public String getMail() {return mail;}
     public int getAge() {return age;}
+
+    public String toString() {
+        return  "name : "+getName()+
+                "\n age : " +getAge()+
+                " year old \n e-mail : " +getMail()+
+                " \n sex : " +getSex();
+
+    }
 }
 
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class PersonService implements PersonRepository{
 
-    File  file = new File("person.txt");
+    File  file = new File("pers.txt");
 
 
 
