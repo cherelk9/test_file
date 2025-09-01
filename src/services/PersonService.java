@@ -94,8 +94,10 @@ public class PersonService implements PersonRepository{
                 @SuppressWarnings("unchecked")
                 List<Person> persons =  (List<Person>) obj;
                 return persons;
+            }else{
+                return new ArrayList<>();
             }
-            throw new FileNotFoundException("fichier non trouvable");
+
 
 
         } catch (ClassNotFoundException e) {

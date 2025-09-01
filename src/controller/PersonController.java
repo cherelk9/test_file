@@ -11,6 +11,7 @@ public class PersonController {
     private static PersonService personService = new PersonService();
 
 
+
     public  PersonController(PersonService personService) {
         PersonController.personService = personService;
     }
@@ -22,7 +23,13 @@ public class PersonController {
     }
 
     public  void getAllPerson() throws IOException {
-        personService.getAllPerson().forEach(System.out::println);
+        personService.getAllPerson().forEach(
+                person->System.out.println(
+                        person.getName()+ ""
+                        +person.getAge()+ ""
+                        +person.getMail()+""
+                        +person.getSex()
+        ));
     }
 
     public void findPersonByName(String name) throws IOException{
