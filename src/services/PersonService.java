@@ -2,13 +2,31 @@ package services;
 
 import entities.Person;
 import entities.Sex;
+import exceptions.FileNotFoundException;
 import repository.PersonRepository;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PersonService implements PersonRepository{
 
+    File  file = new File("person.txt");
+
+
+
+    private  void savePerson(List<Person> persons) throws IOException{
+        if (!file.exists())
+            return;
+
+        try(var ob = new ObjectOutputStream(
+                new BufferedOutputStream(
+                        new FileOutputStream(file)
+                )
+        )) {
+            ob.writeObject(persons);
+        }
+    }
 
     @Override
     public void addAllPerson(List<Person> personList) throws IOException {
@@ -42,22 +60,9 @@ public class PersonService implements PersonRepository{
 
     @Override
     public void addPerson(Person person) throws IOException {
-        try (var ob = new ObjectOutputStream(
-                new BufferedOutputStream(
-                        new FileOutputStream("person.txt")))) {
-
-            Person person1 = new Person(
-                    person.getName(),
-                    person.getAge(),
-                    person.getMail(),
-                    person.getSex()
-            );
-
-            ob.writeObject(person1);
-
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
-        }
+        List<Person> personList = getAllPerson();
+        personList.add(person);
+        savePerson(personList);
     }
 
     @Override
@@ -75,9 +80,12 @@ public class PersonService implements PersonRepository{
 
     @Override
     public List<Person> getAllPerson() throws IOException{
+      if (!file.exists())
+            return new ArrayList<>();
+
         try(var ob = new ObjectInputStream(
                 new BufferedInputStream(
-                        new FileInputStream("person.txt")))) {
+                        new FileInputStream(file)))) {
 
             Object obj = ob.readObject();
 
@@ -87,7 +95,7 @@ public class PersonService implements PersonRepository{
                 List<Person> persons =  (List<Person>) obj;
                 return persons;
             }
-            throw new IOException("fichier non trouvable");
+            throw new FileNotFoundException("fichier non trouvable");
 
 
         } catch (ClassNotFoundException e) {
