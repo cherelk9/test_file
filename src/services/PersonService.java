@@ -53,7 +53,7 @@ public class PersonService implements PersonRepository{
     }
 
     @Override
-    public void remouvePerson(String name) throws IOException{
+    public void removePerson(String name) throws IOException{
         List<Person> personFind = findPersonByName(name);
         List<Person> personList= personFind.stream()
                 .filter(p->p.getName().equals(name))
@@ -68,7 +68,14 @@ public class PersonService implements PersonRepository{
     @Override
     public List<Person> getAllPerson() throws IOException{
         try(var ob = new ObjectInputStream(new BufferedInputStream(new FileInputStream("/home/elembe/Téléchargements/person.txt")))) {
-            return (ArrayList<Person>)  ob.readObject();
+            Object obj = ob.readObject();
+
+            if (obj instanceof List<?>) {
+                return (List<Person>) obj;
+            }
+            throw new IOException("fichier non trouvable");
+
+
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

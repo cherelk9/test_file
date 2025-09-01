@@ -1,6 +1,7 @@
 package controller;
 
 import entities.Person;
+import entities.Sex;
 import services.PersonService;
 
 import java.io.IOException;
@@ -9,26 +10,36 @@ public class PersonController {
 
     private static PersonService personService = new PersonService();
 
-    public PersonController(PersonService personService) {
+
+    public  PersonController(PersonService personService) {
         PersonController.personService = personService;
     }
+
+
 
     public void addPerson(Person person) throws IOException{
         personService.addPerson(person);
     }
 
     public  void getAllPerson() throws IOException {
-        for (var person : personService.getAllPerson())
-            System.out.println(person);
+        personService.getAllPerson().forEach(System.out::println);
     }
 
     public void findPersonByName(String name) throws IOException{
-        for (var names: personService.findPersonByName(name))
-            System.out.println(name);
+        personService.findPersonByName(name).forEach(System.out::println);
+
     }
 
-    public void delet(String name) throws IOException{
-        personService.remouvePerson(name);
+    public void findPersonByAge(int age) throws IOException{
+        personService.findPersonByAge(age).forEach(System.out::println);
+    }
+
+    public void findPersonBySex(Sex sex) throws  IOException{
+        personService.findPersonBySex(sex).forEach(System.out::println);
+    }
+
+    public void delete(String name) throws IOException{
+        personService.removePerson(name);
     }
 
 }
