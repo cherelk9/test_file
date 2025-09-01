@@ -5,6 +5,7 @@ import entities.Sex;
 import services.PersonService;
 
 import java.io.IOException;
+import java.util.List;
 
 public class PersonController {
 
@@ -22,22 +23,32 @@ public class PersonController {
         personService.addPerson(person);
     }
 
+    public void addAllPersons(List<Person> personList) throws IOException{
+        personService.addAllPerson(personList);
+    }
+
     public  void getAllPerson() throws IOException {
         personService.getAllPerson()
                 .forEach(person->System.out.println(person.toString()));
     }
 
     public void findPersonByName(String name) throws IOException{
-        personService.findPersonByName(name).forEach(System.out::println);
+        personService
+                .findPersonByName(name)
+                .forEach(person->System.out.println(person.toString()));
 
     }
 
     public void findPersonByAge(int age) throws IOException{
-        personService.findPersonByAge(age).forEach(System.out::println);
+        personService
+                .findPersonByAge(age)
+                .forEach(p->System.out.println(p.toString()));
     }
 
     public void findPersonBySex(Sex sex) throws  IOException{
-        personService.findPersonBySex(sex).forEach(System.out::println);
+        personService
+                .findPersonBySex(sex)
+                .forEach(p->System.out.println(p.toString()));
     }
 
     public void delete(String name) throws IOException{
