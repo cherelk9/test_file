@@ -12,12 +12,15 @@ import java.util.List;
 public class PersonService implements PersonRepository{
 
     File  file = new File("pers.txt");
+    boolean isCreate = false ;
 
 
 
     private  void savePerson(List<Person> persons) throws IOException{
-        if (!file.exists())
-            return;
+        if (!file.exists()){
+            isCreate = file.createNewFile();
+        }
+
 
         try(var ob = new ObjectOutputStream(
                 new BufferedOutputStream(
